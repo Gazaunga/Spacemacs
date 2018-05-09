@@ -1,0 +1,29 @@
+#!/bin/sh
+## This file is sourced by some DM and should not contain any desktop execution.
+
+## Internet browsers that need X to run.
+for i in qutebrowser dwb luakit chromium google-chrome; do
+	command -v $i >/dev/null 2>&1 && export BROWSER=$i && break
+done
+
+## X resources for xterm, rxvt et al.
+## Some DM merge this automatically; merge it for manual logins.
+[ -f "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
+## Dynamic values. We could have defined the value from a variable in
+## .Xresources which we would have set with the preprocessor. But the login
+## manager may merge after sourcing this file without setting the preprocessor
+## variable, thus overwriting the value with the variable name.
+cat <<EOF | xrdb -merge
+*VT100*translations: #override Ctrl Meta <KeyPress> U: exec-formatted("$BROWSER '%t'", CLIPBOARD) \n\
+	Shift <KeyPress> Up:scroll-back(1,line,m) \n\
+	Shift <KeyPress> Down:scroll-forw(1,line,m)
+EOF
+
+## Turn off the bell.
+xset -b
+
+## Lock screen on sleep.
+# xss-lock slock &
+
+## PulseAudio
+start-pulseaudio-x11 &
