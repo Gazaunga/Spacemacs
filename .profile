@@ -86,7 +86,7 @@ export WINEDLLOVERRIDES="$WINEDLLOVERRIDES;winemenubuilder.exe=d"
 ## Default text editor
 ## VISUAL is given priority by some programs like Mutt. This way we can separate
 ## editors that wait from those that don't.
-for i in emacsclient emacs vim vi nano; do
+for i in emacsclient em emacs vim vi nano; do
 	command -v $i >/dev/null 2>&1 && export EDITOR=$i && break
 done
 GIT_EDITOR="$EDITOR"
