@@ -101,3 +101,5 @@ export VISUAL
 [ -f ~/.bashrc ] && . ~/.bashrc
 
 [ -z "$DISPLAY" ] && [ "$(tty)" = '/dev/tty1' ] && exec xinit -- vt01
+
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
